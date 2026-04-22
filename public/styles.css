@@ -446,6 +446,21 @@ body {
   font-weight: 700;
 }
 
+.history-breakdown {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.history-breakdown-row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.history-breakdown-label {
+  margin: 0;
+  color: var(--muted);
+}
+
 .history-rounds {
   display: flex;
   flex-wrap: wrap;

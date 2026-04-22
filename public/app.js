@@ -1,4 +1,3 @@
-
 const statusText = document.getElementById("status-text");
 const flipButton = document.getElementById("flip-button");
 const coin = document.getElementById("coin");
@@ -228,7 +227,13 @@ function renderSessionPanel() {
 }
 
 function setSeriesState(series) {
+  const previousSeriesWasActive = Boolean(currentSeries && !currentSeries.winner);
   currentSeries = series;
+
+  if (!currentSeries && previousSeriesWasActive) {
+    bestOfInput.value = "";
+  }
+
   syncInputLocks();
   syncBestOfUi();
   renderSessionPanel();
@@ -316,17 +321,67 @@ function renderHistory() {
     item.append(header, heads, tails);
 
     if (entry.rounds && entry.rounds.length) {
-      const rounds = document.createElement("div");
-      rounds.className = "history-rounds";
+      const indexedRounds = entry.rounds.map((round, index) => ({
+        round,
+        roundIndex: index + 1
+      }));
 
-      for (const round of entry.rounds) {
-        const chip = document.createElement("p");
-        chip.className = "history-round";
-        chip.textContent = `#${round.id} ${round.result === "heads" ? "Heads" : "Tails"}`;
-        rounds.append(chip);
+      if (entry.bestOf > 1) {
+        const breakdown = document.createElement("div");
+        breakdown.className = "history-breakdown";
+
+        const createBreakdownRow = (label, result) => {
+          const row = document.createElement("div");
+          row.className = "history-breakdown-row";
+
+          const matchingRounds = indexedRounds.filter(
+            (item) => item.round.result === result
+          );
+
+          const summary = document.createElement("p");
+          summary.className = "history-breakdown-label";
+          summary.textContent = `${label}: ${matchingRounds.length}`;
+
+          const chips = document.createElement("div");
+          chips.className = "history-rounds";
+
+          if (!matchingRounds.length) {
+            const none = document.createElement("p");
+            none.className = "history-round";
+            none.textContent = "None";
+            chips.append(none);
+          } else {
+            for (const itemRound of matchingRounds) {
+              const chip = document.createElement("p");
+              chip.className = "history-round";
+              chip.textContent = `Flip ${itemRound.roundIndex}`;
+              chips.append(chip);
+            }
+          }
+
+          row.append(summary, chips);
+          return row;
+        };
+
+        breakdown.append(
+          createBreakdownRow("Heads", "heads"),
+          createBreakdownRow("Tails", "tails")
+        );
+
+        item.append(breakdown);
+      } else {
+        const rounds = document.createElement("div");
+        rounds.className = "history-rounds";
+
+        for (const itemRound of indexedRounds) {
+          const chip = document.createElement("p");
+          chip.className = "history-round";
+          chip.textContent = `Flip ${itemRound.roundIndex}: ${itemRound.round.result === "heads" ? "Heads" : "Tails"}`;
+          rounds.append(chip);
+        }
+
+        item.append(rounds);
       }
-
-      item.append(rounds);
     }
 
     historyList.append(item);

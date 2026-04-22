@@ -338,6 +338,8 @@ function revealActiveFlip() {
         buildHistoryEntryFromSeries(currentSeries)
       );
       revealedPayload.historyEntry = historyEntry;
+      currentSeries = null;
+      broadcast("series-updated", null);
     } else {
       scheduleNextRound();
     }
