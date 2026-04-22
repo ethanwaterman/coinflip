@@ -7,71 +7,107 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+    <div class="utility-bar">
+      <button id="details-button" class="mini-button mini-button-secondary" type="button">
+        Details
+      </button>
+      <button id="reset-app-button" class="mini-button mini-button-secondary" type="button">
+        Reset App
+      </button>
+    </div>
+
     <main class="shell">
-      <section class="hero">
-        <p class="eyebrow">Shared and verifiable</p>
-        <h1>Transparent Coin Flip</h1>
-        <p class="lede">
-          Everyone connected to this page sees the same live flip. The app
-          commits to the outcome first, then reveals the result and secret so
-          every browser can verify the hash.
-        </p>
-      </section>
-
-      <section class="board">
-        <div class="status-panel">
-          <div class="status-copy">
-            <p class="label">Live status</p>
-            <h2 id="status-title">Waiting for the next flip</h2>
-            <p id="status-detail">
-              Open this page on any device connected to the same server.
-            </p>
+      <section class="app">
+        <section class="presence-strip" aria-label="People here now">
+          <div class="presence-summary">
+            <span id="presence-count" class="presence-count">No one here</span>
+            <div id="presence-list" class="presence-list"></div>
           </div>
-          <button id="flip-button" class="flip-button">Flip the Coin</button>
-        </div>
+          <label class="presence-name">
+            <span class="presence-label">You</span>
+            <input
+              id="presence-name-input"
+              class="presence-name-input"
+              type="text"
+              maxlength="40"
+              placeholder="optional name"
+            />
+          </label>
+        </section>
 
-        <div class="coin-stage">
-          <div id="coin" class="coin resting" aria-live="polite">
-            <div class="coin-face coin-front">Heads</div>
-            <div class="coin-face coin-back">Tails</div>
-          </div>
-          <div class="result-strip">
-            <div>
-              <p class="label">Current result</p>
-              <p id="result-text" class="result-text">No flip yet</p>
+        <section class="stage-row">
+          <button id="flip-button" class="coin-button" type="button" aria-label="Flip the coin">
+            <div id="coin" class="coin resting" aria-live="polite">
+              <div class="coin-face coin-front"></div>
+              <div class="coin-face coin-back"></div>
             </div>
-            <div>
-              <p class="label">Verification</p>
-              <p id="verification-text" class="verification-text">
-                Waiting for reveal
-              </p>
+          </button>
+
+          <div class="best-of-inline" aria-label="Best of options">
+            <span class="best-of-label">BEST OF</span>
+            <input
+              id="best-of-input"
+              class="best-of-input"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              autocomplete="off"
+            />
+            <span id="best-of-summary" class="best-of-summary"></span>
+          </div>
+        </section>
+
+        <p id="status-text" class="status-text">Click the coin to flip</p>
+        <p id="result-text" class="result-text"></p>
+
+        <section id="session-panel" class="session-panel is-hidden" aria-label="Current session">
+          <div class="session-header">
+            <p class="session-title">Session</p>
+            <p id="session-score" class="session-score"></p>
+          </div>
+          <p id="session-status" class="session-status"></p>
+          <div id="session-results" class="session-results"></div>
+        </section>
+
+        <section class="outcomes" aria-label="Coin outcomes">
+          <article id="heads-outcome" class="outcome-card">
+            <p class="outcome-label">Heads</p>
+            <textarea id="heads-input" rows="3" placeholder="What happens if heads wins?"></textarea>
+          </article>
+          <article id="tails-outcome" class="outcome-card">
+            <p class="outcome-label">Tails</p>
+            <textarea id="tails-input" rows="3" placeholder="What happens if tails wins?"></textarea>
+          </article>
+        </section>
+
+        <section id="details-panel" class="details is-hidden">
+          <article class="detail-row">
+            <p class="detail-label">Verification</p>
+            <p id="verification-text" class="detail-value">Waiting for reveal</p>
+          </article>
+          <article class="detail-row">
+            <p class="detail-label">Commitment hash</p>
+            <code id="commitment-text">Not started</code>
+          </article>
+          <article class="detail-row">
+            <p class="detail-label">Secret after reveal</p>
+            <code id="secret-text">Hidden until the flip completes</code>
+          </article>
+        </section>
+
+        <section class="history" aria-label="Flip history">
+          <div class="history-header">
+            <p class="history-title">History</p>
+            <div class="history-actions">
+              <button id="clear-history-button" class="mini-button mini-button-secondary" type="button">
+                Clear History
+              </button>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section class="details">
-        <article class="card">
-          <p class="label">Commitment hash</p>
-          <code id="commitment-text">Not started</code>
-        </article>
-        <article class="card">
-          <p class="label">Secret after reveal</p>
-          <code id="secret-text">Hidden until the flip completes</code>
-        </article>
-        <article class="card">
-          <p class="label">Open from other devices</p>
-          <div id="share-links" class="share-links">
-            <p>Loading server addresses...</p>
+          <div id="history-list" class="history-list">
+            <p class="history-empty">No flips yet.</p>
           </div>
-        </article>
-        <article class="card">
-          <p class="label">Instructions</p>
-          <p>
-            Start the server on one machine, then visit the same URL from every
-            other computer. Whoever triggers the flip broadcasts it to everyone.
-          </p>
-        </article>
+        </section>
       </section>
     </main>
 
