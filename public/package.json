@@ -1,0 +1,13 @@
+{
+  "name": "coinflip",
+  "version": "1.0.0",
+  "description": "Shared coin flip app with transparent, verifiable reveal",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}
