@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transparent Coin Flip</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Shared and verifiable</p>
+        <h1>Transparent Coin Flip</h1>
+        <p class="lede">
+          Everyone connected to this page sees the same live flip. The app
+          commits to the outcome first, then reveals the result and secret so
+          every browser can verify the hash.
+        </p>
+      </section>
+
+      <section class="board">
+        <div class="status-panel">
+          <div class="status-copy">
+            <p class="label">Live status</p>
+            <h2 id="status-title">Waiting for the next flip</h2>
+            <p id="status-detail">
+              Open this page on any device connected to the same server.
+            </p>
+          </div>
+          <button id="flip-button" class="flip-button">Flip the Coin</button>
+        </div>
+
+        <div class="coin-stage">
+          <div id="coin" class="coin resting" aria-live="polite">
+            <div class="coin-face coin-front">Heads</div>
+            <div class="coin-face coin-back">Tails</div>
+          </div>
+          <div class="result-strip">
+            <div>
+              <p class="label">Current result</p>
+              <p id="result-text" class="result-text">No flip yet</p>
+            </div>
+            <div>
+              <p class="label">Verification</p>
+              <p id="verification-text" class="verification-text">
+                Waiting for reveal
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="details">
+        <article class="card">
+          <p class="label">Commitment hash</p>
+          <code id="commitment-text">Not started</code>
+        </article>
+        <article class="card">
+          <p class="label">Secret after reveal</p>
+          <code id="secret-text">Hidden until the flip completes</code>
+        </article>
+        <article class="card">
+          <p class="label">Open from other devices</p>
+          <div id="share-links" class="share-links">
+            <p>Loading server addresses...</p>
+          </div>
+        </article>
+        <article class="card">
+          <p class="label">Instructions</p>
+          <p>
+            Start the server on one machine, then visit the same URL from every
+            other computer. Whoever triggers the flip broadcasts it to everyone.
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
